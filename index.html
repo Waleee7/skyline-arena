@@ -21,15 +21,6 @@
 <body data-type="kinetic">
 <div id="loader"><span class="pulse">Entering the arena…</span></div>
 
-<!-- live text-treatment switcher -->
-<div class="typeswitch" role="group" aria-label="Text style">
-  <span class="tsl">Text</span>
-  <button type="button" data-type="kinetic" class="on">Kinetic</button>
-  <button type="button" data-type="hud">HUD</button>
-  <button type="button" data-type="marquee">Marquee</button>
-</div>
-<div class="marquee" aria-hidden="true"><div class="marquee-track" id="mtrack"></div></div>
-
 <canvas id="bg" aria-hidden="true"></canvas>
 
 <header class="topbar">
@@ -59,6 +50,7 @@
     <div class="hud">
       <div class="hud-line">◉ Now viewing</div>
       <div class="hud-now" id="arenaCaption">Portfolio-OS</div>
+      <div class="hud-desc" id="arenaDesc">A full desktop OS in the browser — Three.js, 20 apps, zero dependencies.</div>
       <div class="hud-sub">drag to spin the ring · tap a screen to open</div>
     </div>
   </section>
@@ -183,16 +175,6 @@
   // reveals
   var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:.12,rootMargin:'0px 0px -8% 0px'});
   document.querySelectorAll('.reveal').forEach(function(el){io.observe(el);});
-  // marquee content
-  var mt=document.getElementById('mtrack');
-  if(mt){ var unit='BUILT TO SHIP — JOSH DARE — WEB · APPS · AI — '; mt.textContent=unit.repeat(12); }
-  // text-style switcher
-  document.querySelectorAll('.typeswitch button').forEach(function(b){
-    b.addEventListener('click',function(){
-      document.body.dataset.type=b.dataset.type;
-      document.querySelectorAll('.typeswitch button').forEach(function(x){x.classList.toggle('on',x===b);});
-    });
-  });
 </script>
 <script type="module" src="main.js"></script>
 </body>

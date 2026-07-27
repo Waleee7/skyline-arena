@@ -20,7 +20,17 @@ const N = PROJECTS.length, STEP = (Math.PI*2)/N, R = 60, SY = 50;
 
 function hasWebGL(){ try{ const c=document.createElement('canvas'); return !!(window.WebGLRenderingContext && (c.getContext('webgl2')||c.getContext('webgl'))); }catch(e){ return false; } }
 function hideLoader(){ const l=document.getElementById('loader'); if(l){ l.classList.add('gone'); setTimeout(()=>l.remove(),900); } }
-const setCaption = (t)=>{ const el=document.getElementById('arenaCaption'); if(el) el.textContent=t; };
+const DESCS = [
+  "A full desktop OS in the browser — Three.js, 20 apps, zero dependencies.",
+  "A cinematic hair-brand storefront with a preview checkout. Live client.",
+  "AI institutional memory for luxury hotels — built at the Anthropic Hackathon.",
+  "A booking-forward storefront for a braided-hair studio.",
+  "A structured prompt builder for image & video AI, on a custom domain.",
+  "A training app for throwers — sessions, PRs, and workload.",
+  "A gamified interactive options course with XP and badges.",
+];
+const setCaption = (i)=>{ const n=document.getElementById('arenaCaption'), d=document.getElementById('arenaDesc');
+  if(n) n.textContent=PROJECTS[i].name; if(d) d.textContent=DESCS[i]||''; };
 
 if(!hasWebGL()){ document.body.classList.add('no-webgl'); hideLoader(); }
 else { try{ init(); }catch(err){ console.error('Arena init failed:',err); document.body.classList.add('no-webgl'); hideLoader(); } }
@@ -32,14 +42,14 @@ function gridTexture(){
   const t=new THREE.CanvasTexture(c); t.wrapS=t.wrapT=THREE.RepeatWrapping; return t;
 }
 function windowTexture(){
-  const c=document.createElement('canvas'); c.width=64; c.height=160; const g=c.getContext('2d');
-  g.fillStyle='#05080f'; g.fillRect(0,0,64,160);
-  const cols=4, rows=12, pad=4, cw=(64-pad*(cols+1))/cols, ch=(160-pad*(rows+1))/rows;
-  const lit=['#37E2E2','#8ff0ff','#FFB347','#dff6ff'];
-  for(let r=0;r<rows;r++)for(let col=0;col<cols;col++){ const on=Math.random()<.42;
-    g.fillStyle=on?lit[(Math.random()*lit.length)|0]:'#0a1220'; g.globalAlpha=on?(.5+Math.random()*.5):1;
+  const c=document.createElement('canvas'); c.width=192; c.height=448; const g=c.getContext('2d');
+  g.fillStyle='#060a12'; g.fillRect(0,0,192,448);
+  const cols=6, rows=18, pad=5, cw=(192-pad*(cols+1))/cols, ch=(448-pad*(rows+1))/rows;
+  const lit=['#37E2E2','#8ff0ff','#dff6ff','#a9d8ff','#5fc9e8']; // cool only — no fire
+  for(let r=0;r<rows;r++)for(let col=0;col<cols;col++){ const on=Math.random()<.38;
+    g.fillStyle=on?lit[(Math.random()*lit.length)|0]:'#0b1626'; g.globalAlpha=on?(.45+Math.random()*.5):1;
     g.fillRect(pad+col*(cw+pad),pad+r*(ch+pad),cw,ch); }
-  g.globalAlpha=1; const t=new THREE.CanvasTexture(c); t.colorSpace=THREE.SRGBColorSpace; return t;
+  g.globalAlpha=1; const t=new THREE.CanvasTexture(c); t.colorSpace=THREE.SRGBColorSpace; t.anisotropy=8; return t;
 }
 function labelSprite(text){
   const c=document.createElement('canvas'); c.width=512; c.height=96; const g=c.getContext('2d');
@@ -54,7 +64,7 @@ function init(){
   const renderer=new THREE.WebGLRenderer({canvas,antialias:!isMobile,powerPreference:'high-performance'});
   renderer.setPixelRatio(Math.min(devicePixelRatio,isMobile?1.5:2));
   renderer.setSize(innerWidth,innerHeight);
-  renderer.toneMapping=THREE.ACESFilmicToneMapping; renderer.toneMappingExposure=0.78;
+  renderer.toneMapping=THREE.ACESFilmicToneMapping; renderer.toneMappingExposure=0.80;
   renderer.outputColorSpace=THREE.SRGBColorSpace;
 
   const scene=new THREE.Scene();
@@ -64,7 +74,7 @@ function init(){
   // ---- REAL night-city HDRI (background + lighting) ----
   new RGBELoader().load(isMobile?'assets/env/city_1k.hdr':'assets/env/city_2k.hdr', tex=>{
     tex.mapping=THREE.EquirectangularReflectionMapping;
-    scene.background=tex; scene.environment=tex; scene.backgroundIntensity=0.9;
+    scene.background=tex; scene.environment=tex; scene.backgroundIntensity=1.18;
     hideLoader();
   }, undefined, ()=>{ scene.background=new THREE.Color(0x060d18); hideLoader(); });
   setTimeout(hideLoader, 6000);
@@ -85,7 +95,7 @@ function init(){
 
   // ---- ground + neon grid (reflects the real env) ----
   const ground=new THREE.Mesh(new THREE.PlaneGeometry(6000,6000),
-    new THREE.MeshStandardMaterial({color:0x04070d,roughness:.18,metalness:.85}));
+    new THREE.MeshStandardMaterial({color:0x05090f,roughness:.55,metalness:.35}));
   ground.rotation.x=-Math.PI/2; scene.add(ground);
   const gtex=gridTexture(); gtex.repeat.set(120,120);
   const grid=new THREE.Mesh(new THREE.PlaneGeometry(6000,6000),
@@ -118,15 +128,16 @@ function init(){
   // ---- post ----
   const composer=new EffectComposer(renderer);
   composer.addPass(new RenderPass(scene,camera));
-  const bloom=new UnrealBloomPass(new THREE.Vector2(innerWidth,innerHeight), isMobile?0.4:0.45, 0.4, 0.5);
+  const bloom=new UnrealBloomPass(new THREE.Vector2(innerWidth,innerHeight), isMobile?0.34:0.38, 0.4, 0.55);
   composer.addPass(bloom); composer.addPass(new OutputPass());
 
   // ---- scroll-driven cinematic camera ----
   const CENTER=new THREE.Vector3(0,SY,0);
-  const HERO=new THREE.Vector3(0,SY+30,26);         // elevated establishing view (inside radius → sees fronts)
-  const DESCEND_START=new THREE.Vector3(0,SY+150,120);
+  const HERO=new THREE.Vector3(0,SY+6,26);          // slightly above eye, looks toward the horizon (city reads)
+  const DESCEND_START=new THREE.Vector3(0,SY+70,80);
   const INTRO=reduced?0:4.6;
-  let yaw=0, targetYaw=0, dragging=false, lastX=0, moved=0;
+  const START_YAW=-0.52;                            // off-axis so the city gap is behind the text, main screen beside it
+  let yaw=START_YAW, targetYaw=START_YAW, dragging=false, lastX=0, moved=0;
   const clock=new THREE.Clock(); let elapsed=0;
   const ringPoint=(y)=>new THREE.Vector3(Math.sin(y)*R,SY,Math.cos(y)*R);
   const easeIO=(t)=>t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2;
@@ -158,13 +169,13 @@ function init(){
 
     if(INTRO>0 && elapsed<INTRO && scrollY<innerHeight*0.4){
       const t=easeIO(elapsed/INTRO);
-      camera.position.lerpVectors(DESCEND_START,HERO,t); camera.lookAt(ringPoint(0));
+      camera.position.lerpVectors(DESCEND_START,HERO,t); camera.lookAt(ringPoint(START_YAW));
     } else {
       // q 0..0.32: fly from HERO into exact CENTER ; q>0.32: orbit endlessly
-      const dive=Math.min(1,q/0.32);
-      camera.position.lerpVectors(HERO,CENTER,easeIO(dive));
-      if(q>0.32 || dragging){ if(!dragging) targetYaw = -(q-0.32)*Math.PI*5; }
-      if(reduced && !dragging) targetYaw = 0;
+      const dive=easeIO(Math.min(1,q/0.32));
+      camera.position.lerpVectors(HERO,CENTER,dive);
+      if(q>0.32 || dragging){ if(!dragging) targetYaw = START_YAW-(q-0.32)*Math.PI*5; }
+      if(reduced && !dragging) targetYaw = START_YAW;
       yaw += (targetYaw-yaw)*Math.min(1,dt*4);
       camera.lookAt(ringPoint(yaw));
     }
@@ -177,7 +188,7 @@ function init(){
       if(d<1.05){ if(v.paused) v.play().catch(()=>{}); } else if(!v.paused){ v.pause(); }
       if(d<bestD){bestD=d;best=i;}
     });
-    if(best!==lastCenter){ lastCenter=best; setCaption(PROJECTS[best].name); }
+    if(best!==lastCenter){ lastCenter=best; setCaption(best); }
 
     ring.children.forEach(h=>{ h.position.y=SY+Math.sin(elapsed*0.8+h.userData.phase)*0.6; });
     composer.render();
