@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Josh Dare — builder</title>
+<meta name="description" content="Josh Dare — developer & CS '26. A neon-Tokyo arena of the sites, apps, and experiments I've built, in motion.">
+<meta property="og:title" content="Josh Dare — builder">
+<meta property="og:description" content="The things I've built, in motion. Fly through the work.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..125,400..900&family=Inter:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<script type="importmap">
+{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+}}
+</script>
+</head>
+<body data-type="kinetic">
+<div id="loader"><span class="pulse">Entering the arena…</span></div>
+
+<!-- live text-treatment switcher -->
+<div class="typeswitch" role="group" aria-label="Text style">
+  <span class="tsl">Text</span>
+  <button type="button" data-type="kinetic" class="on">Kinetic</button>
+  <button type="button" data-type="hud">HUD</button>
+  <button type="button" data-type="marquee">Marquee</button>
+</div>
+<div class="marquee" aria-hidden="true"><div class="marquee-track" id="mtrack"></div></div>
+
+<canvas id="bg" aria-hidden="true"></canvas>
+
+<header class="topbar">
+  <div class="brand"><span class="dia"></span> Josh Dare</div>
+  <nav class="topnav">
+    <a href="#work" class="hidesm">Work</a>
+    <a href="#stack" class="hidesm">Stack</a>
+    <a href="#now" class="hidesm">Now</a>
+    <a href="https://github.com/Waleee7" target="_blank" rel="noopener">GitHub</a>
+    <a href="mailto:jdare354@gmail.com">Email</a>
+  </nav>
+</header>
+
+<main id="top">
+  <!-- HERO -->
+  <section class="hero">
+    <div class="wrap">
+      <div class="eyebrow">Builder · Toronto · CS &rsquo;26</div>
+      <h1 class="disp" id="heroTitle"><span class="ln">Built to</span><span class="ln u">ship.</span></h1>
+      <p class="lead">The things I&rsquo;ve built &mdash; in motion. Scroll into the arena; drag to spin the ring, tap a screen to open the live site.</p>
+    </div>
+    <div class="scrollcue">scroll to enter ↓</div>
+  </section>
+
+  <!-- ARENA SCROLL STAGE (drives camera: fly to center → endless orbit) -->
+  <section class="arena-scroll" id="arena" aria-hidden="true">
+    <div class="hud">
+      <div class="hud-line">◉ Now viewing</div>
+      <div class="hud-now" id="arenaCaption">Portfolio-OS</div>
+      <div class="hud-sub">drag to spin the ring · tap a screen to open</div>
+    </div>
+  </section>
+  <div id="arenaEnd"></div>
+
+  <!-- WORK -->
+  <section class="block" id="work">
+    <div class="wrap">
+      <div class="sec-head reveal"><h2>The <span class="u">work</span></h2><span class="idx">7 builds · all live</span></div>
+      <div class="work">
+        <a class="card feat reveal" href="https://portfolio-os-navy.vercel.app" target="_blank" rel="noopener">
+          <div class="shot"><img src="assets/portfolio-os.jpg" alt="Portfolio-OS — a browser desktop operating system" loading="lazy"></div>
+          <div class="cbody"><div class="ctop"><span class="cidx">01</span><span class="cname">Portfolio-OS</span><span class="ccat">Interactive · WebGL</span></div>
+            <p class="cdesc">A full desktop operating system in the browser — draggable windows, GPU-glass, a Three.js scene, 20 apps. Zero dependencies, 46 hand-written vanilla modules.</p>
+            <div class="tags"><span class="tag">Three.js</span><span class="tag">Vanilla JS</span><span class="tag">WebGL</span></div>
+            <div class="visit"><u>portfolio-os-navy.vercel.app</u><span class="a">↗</span></div></div>
+        </a>
+        <a class="card reveal" href="https://dextensionz-site.vercel.app" target="_blank" rel="noopener">
+          <div class="shot"><img src="assets/dextensionz.jpg" alt="D'extensionz storefront" loading="lazy"></div>
+          <div class="cbody"><div class="ctop"><span class="cidx">02</span><span class="cname">D&rsquo;extensionz</span><span class="ccat">E-commerce</span></div>
+            <p class="cdesc">A cinematic hair-brand storefront — scene crossfades, shop grid, preview checkout. Live and selling.</p>
+            <div class="tags"><span class="tag">Next.js</span><span class="tag">Tailwind</span><span class="tag">Framer Motion</span></div>
+            <div class="visit"><u>dextensionz-site.vercel.app</u><span class="a">↗</span></div></div>
+        </a>
+        <a class="card reveal" href="https://chain-recall.vercel.app" target="_blank" rel="noopener">
+          <div class="shot"><img src="assets/sandy.jpg" alt="Sandy — AI memory for hotels" loading="lazy"></div>
+          <div class="cbody"><div class="ctop"><span class="cidx">03</span><span class="cname">Sandy</span><span class="ccat">AI Product</span></div>
+            <p class="cdesc">AI institutional memory for luxury hotels — recognizes returning guests, briefs staff before arrival. Built in 8 hours at the SF Anthropic Hackathon.</p>
+            <div class="tags"><span class="tag">Next.js</span><span class="tag">Claude AI</span></div>
+            <div class="visit"><u>chain-recall.vercel.app</u><span class="a">↗</span></div></div>
+        </a>
+        <a class="card reveal" href="https://doppebraids-site-henna.vercel.app" target="_blank" rel="noopener">
+          <div class="shot"><img src="assets/doppebraids.jpg" alt="D'oppebraids studio site" loading="lazy"></div>
+          <div class="cbody"><div class="ctop"><span class="cidx">04</span><span class="cname">D&rsquo;oppebraids</span><span class="ccat">Client site</span></div>
+            <p class="cdesc">A braided-hair studio storefront — clean, booking-forward, built for a real client.</p>
+            <div class="tags"><span class="tag">Next.js</span><span class="tag">Tailwind</span></div>
+            <div class="visit"><u>doppebraids-site-henna.vercel.app</u><span class="a">↗</span></div></div>
+        </a>
+        <a class="card reveal" href="https://prompts.tdotssolutionsz.com" target="_blank" rel="noopener">
+          <div class="shot"><img src="assets/ultimate-prompt.jpg" alt="Ultimate Prompt Generator" loading="lazy"></div>
+          <div class="cbody"><div class="ctop"><span class="cidx">05</span><span class="cname">Prompt&nbsp;Generator</span><span class="ccat">AI Tooling</span></div>
+            <p class="cdesc">A structured prompt builder for image/video AI (Veo, Sora, Nano Banana, Kling) — shipped on a custom domain.</p>
+            <div class="tags"><span class="tag">Next.js</span><span class="tag">AI tool</span></div>
+            <div class="visit"><u>prompts.tdotssolutionsz.com</u><span class="a">↗</span></div></div>
+        </a>
+        <a class="card reveal" href="https://throwing-tracker.vercel.app" target="_blank" rel="noopener">
+          <div class="shot"><img src="assets/throwing-tracker.jpg" alt="ThrowingTracker app" loading="lazy"></div>
+          <div class="cbody"><div class="ctop"><span class="cidx">06</span><span class="cname">ThrowingTracker</span><span class="ccat">Mobile app</span></div>
+            <p class="cdesc">A training app for throwers — sessions, PRs, workload, auto implement-weight. Built from the inside as a thrower.</p>
+            <div class="tags"><span class="tag">React</span><span class="tag">PWA</span></div>
+            <div class="visit"><u>throwing-tracker.vercel.app</u><span class="a">↗</span></div></div>
+        </a>
+        <a class="card reveal" href="https://optionstradingcourse.vercel.app" target="_blank" rel="noopener">
+          <div class="shot"><img src="assets/options-course.jpg" alt="Options Trading Course" loading="lazy"></div>
+          <div class="cbody"><div class="ctop"><span class="cidx">07</span><span class="cname">Options&nbsp;Course</span><span class="ccat">EdTech</span></div>
+            <p class="cdesc">An interactive options course — modules, quizzes, challenges, and a gamified XP + badge system.</p>
+            <div class="tags"><span class="tag">Next.js</span><span class="tag">Gamification</span></div>
+            <div class="visit"><u>optionstradingcourse.vercel.app</u><span class="a">↗</span></div></div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- STACK -->
+  <section class="block" id="stack">
+    <div class="wrap">
+      <div class="sec-head reveal"><h2>The <span class="u">stack</span></h2><span class="idx">What I build with</span></div>
+      <div class="stack reveal">
+        <div class="scol"><h4>Languages</h4><ul><li>TypeScript</li><li>JavaScript</li><li>Python</li><li>SQL</li></ul></div>
+        <div class="scol"><h4>Frameworks</h4><ul><li>Next.js</li><li>React</li><li>Node.js</li><li>Tailwind</li></ul></div>
+        <div class="scol"><h4>Creative / 3D</h4><ul><li>Three.js</li><li>WebGL</li><li>Framer Motion</li><li>Canvas / SVG</li></ul></div>
+        <div class="scol"><h4>AI &amp; Infra</h4><ul><li>Claude API</li><li>Vercel</li><li>Supabase</li><li>Git · Playwright</li></ul></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- NOW -->
+  <section class="block" id="now">
+    <div class="wrap">
+      <div class="sec-head reveal"><h2>What I&rsquo;m <span class="u">building</span></h2><span class="idx">Now</span></div>
+      <div class="now reveal">
+        <div class="nowrow"><span class="n">01</span><div><h3>Skyline Arena</h3><p>This site — a neon-Tokyo WebGL portfolio you fly through. Three.js, real-city HDRI, live-video screens.</p></div><span class="st">● Shipping</span></div>
+        <div class="nowrow"><span class="n">02</span><div><h3>Walkthrough Studio</h3><p>Cinematic property tours generated from a host&rsquo;s existing listing photos — no drone, no crew.</p></div><span class="st">◐ In progress</span></div>
+        <div class="nowrow"><span class="n">03</span><div><h3>DARE Desk</h3><p>An options decision-engine + live dashboard — scanning, alerts, and a replay backtester.</p></div><span class="st">◐ In progress</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="block" id="about">
+    <div class="wrap">
+      <div class="sec-head reveal"><h2>The <span class="u">builder</span></h2><span class="idx">Who&rsquo;s behind it</span></div>
+      <div class="about">
+        <p class="big reveal">Student-athlete. Computer-science major. <span class="u">The athlete who ships.</span></p>
+        <div class="reveal">
+          <p>I&rsquo;m Josh — a thrower and a B.S. Computer Science student (Class of 2026) who builds real, live products. The discipline from sport is the same thing that gets a project across the line: show up, do the reps, ship it.</p>
+          <p>My work spans e-commerce, AI, sports, and edtech, so I&rsquo;m comfortable dropping into whatever a project needs and coming back with something polished and running — a bias toward <em>live</em> over <em>someday</em>.</p>
+          <div class="chips"><span class="chip">Next.js / React</span><span class="chip">TypeScript</span><span class="chip">Three.js / WebGL</span><span class="chip">Claude AI</span><span class="chip">Tailwind</span><span class="chip">Vercel</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="block contact" id="contact">
+    <div class="wrap">
+      <h2 class="disp">Say <span class="u">hi.</span></h2>
+      <p class="sub">Always down to build something or trade notes.</p>
+      <a class="mailbtn" href="mailto:jdare354@gmail.com">jdare354@gmail.com <span>↗</span></a>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <span>© 2026 Josh Dare · Built to ship</span>
+    <span><a href="https://github.com/Waleee7" target="_blank" rel="noopener">github.com/Waleee7</a></span>
+  </div>
+</footer>
+
+<script>
+  // reveals
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:.12,rootMargin:'0px 0px -8% 0px'});
+  document.querySelectorAll('.reveal').forEach(function(el){io.observe(el);});
+  // marquee content
+  var mt=document.getElementById('mtrack');
+  if(mt){ var unit='BUILT TO SHIP — JOSH DARE — WEB · APPS · AI — '; mt.textContent=unit.repeat(12); }
+  // text-style switcher
+  document.querySelectorAll('.typeswitch button').forEach(function(b){
+    b.addEventListener('click',function(){
+      document.body.dataset.type=b.dataset.type;
+      document.querySelectorAll('.typeswitch button').forEach(function(x){x.classList.toggle('on',x===b);});
+    });
+  });
+</script>
+<script type="module" src="main.js"></script>
+</body>
+</html>
