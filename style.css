@@ -140,11 +140,11 @@ body.no-webgl .hero{background:radial-gradient(120% 90% at 50% 18%,#123356,#060D
 
 /* arena scroll stage — provides scroll distance for fly-to-center + orbit */
 .arena-scroll{height:340vh;position:relative}
-.arena-scroll .hud{position:sticky;top:0;height:100vh;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;padding-bottom:12vh;text-align:center;pointer-events:none}
-.hud-line{font-family:'Space Mono',monospace;font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--cyan)}
-.hud-now{font-family:'Archivo';font-weight:900;font-stretch:118%;text-transform:uppercase;font-size:clamp(28px,5.4vw,60px);line-height:1;margin:9px 0 6px;text-shadow:0 4px 34px #000c}
-.hud-desc{font-family:'Inter',sans-serif;font-size:clamp(14px,1.6vw,17px);color:#cfe3f2;max-width:52ch;margin:0 auto 10px;text-shadow:0 2px 16px #000c}
-.hud-sub{font-family:'Space Mono',monospace;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.arena-scroll .hud{position:sticky;top:0;height:100vh;display:flex;flex-direction:column;justify-content:flex-end;align-items:flex-start;padding:0 6vw 8vh;text-align:left;pointer-events:none}
+.hud-line{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--cyan)}
+.hud-now{font-family:'Space Mono',monospace;font-weight:700;text-transform:uppercase;font-size:clamp(20px,3.2vw,38px);letter-spacing:.01em;line-height:1;margin:7px 0 6px;text-shadow:0 3px 20px #000d}
+.hud-desc{font-family:'Inter',sans-serif;font-size:clamp(13px,1.5vw,16px);color:#cfe3f2;max-width:42ch;margin:0 0 10px;text-shadow:0 2px 16px #000c}
+.hud-sub{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
 
 /* type switcher control */
 .typeswitch{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);z-index:45;display:flex;gap:5px;align-items:center;
